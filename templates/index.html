@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card">
+  <div class="card-header">
+    <h2>Artists</h2>
+  </div>
+
+  {% if singers %}
+    <div class="artist-grid">
+      {% for singer in singers %}
+        <a class="artist-card" href="{{ url_for('artist_detail', singer_id=singer.id) }}">
+          <h3>{{ singer.name }}</h3>
+          <p>{{ singer.albums|length }} album{% if singer.albums|length != 1 %}s{% endif %}</p>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="empty-state">No artists have been added yet. Use the configuration page to create your first entry.</p>
+  {% endif %}
+</section>
+{% endblock %}

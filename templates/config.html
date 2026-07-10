@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card-grid">
+  <section class="card">
+    <div class="card-header">
+      <h2>Add Artists / Albums</h2>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="stack">
+      <input type="hidden" name="action" value="add" />
+
+      <label>
+        New artist name
+        <input type="text" name="new_singer" placeholder="Enter a new artist" />
+      </label>
+
+      <label>
+        Or choose an existing artist
+        <select name="existing_singer">
+          <option value="">Select an artist</option>
+          {% for singer in singers %}
+            <option value="{{ singer.id }}">{{ singer.name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+
+      <label>
+        Import album tracklist (.txt)
+        <input type="file" name="track_file" accept=".txt,text/plain" />
+      </label>
+
+      <button class="button primary" type="submit">Import Album</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <div class="card-header">
+      <h2>Remove Artists / Albums</h2>
+    </div>
+
+    <form method="get" class="stack">
+      <label>
+        Select artist
+        <select name="artist_id" onchange="this.form.submit()">
+          <option value="">Choose an artist</option>
+          {% for singer in singers %}
+            <option value="{{ singer.id }}" {% if selected_singer and selected_singer.id == singer.id %}selected{% endif %}>{{ singer.name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+    </form>
+
+    {% if selected_singer %}
+      <div class="stack">
+        <h3>{{ selected_singer.name }}</h3>
+        {% if albums %}
+          {% for album in albums %}
+            <div class="remove-row">
+              <span>{{ album.name }}</span>
+              <form method="post" style="display:inline;">
+                <input type="hidden" name="action" value="delete_album" />
+                <input type="hidden" name="album_id" value="{{ album.id }}" />
+                <button class="button danger" type="submit">Delete Album</button>
+              </form>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="empty-state">No albums to remove for this artist.</p>
+        {% endif %}
+
+        <form method="post" class="stack">
+          <input type="hidden" name="action" value="delete_singer" />
+          <input type="hidden" name="singer_id" value="{{ selected_singer.id }}" />
+          <button class="button danger" type="submit" {% if selected_singer.albums %}disabled{% endif %}>Delete Artist</button>
+        </form>
+      </div>
+    {% else %}
+      <p class="empty-state">Select an artist to view albums and remove them.</p>
+    {% endif %}
+  </section>
+</section>
+{% endblock %}

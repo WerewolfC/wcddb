@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card">
+  <div class="card-header">
+    <h2>{{ singer.name }}</h2>
+    <a class="button secondary" href="{{ url_for('index') }}">Back to Artists</a>
+  </div>
+
+  {% if albums %}
+    {% for album in albums %}
+      <article class="album-card">
+        <h3>{{ album.name }}</h3>
+        {% if album.tracks %}
+          <ol class="track-list">
+            {% for track in album.tracks|sort(attribute='track_number') %}
+              <li>{{ track.track_number }}. {{ track.name }}</li>
+            {% endfor %}
+          </ol>
+        {% else %}
+          <p class="empty-state">No tracks yet for this album.</p>
+        {% endif %}
+      </article>
+    {% endfor %}
+  {% else %}
+    <p class="empty-state">No albums available for this artist yet.</p>
+  {% endif %}
+</section>
+{% endblock %}
