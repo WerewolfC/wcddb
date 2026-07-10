@@ -1,4 +1,5 @@
 import os
+import re
 from flask import Flask, flash, redirect, render_template, request, url_for
 
 from models import Album, Singer, Track, db, init_db
@@ -71,6 +72,11 @@ def config():
                 flash(str(exc), "error")
                 return redirect(url_for("config"))
 
+            existing_album = Album.query.filter(db.func.lower(Album.name) == album_name.lower()).first()
+            if existing_album is not None:
+                flash("Album already exists in the database.", "error")
+                return redirect(url_for("config", artist_id=singer.id))
+
             album = Album(name=album_name, singer=singer)
             db.session.add(album)
             db.session.flush()
@@ -128,9 +134,11 @@ def parse_import_file(upload_file):
     for line in lines[1:]:
         if "_" not in line:
             continue
-        number_text, rest = line.split("_", 1)
-        title = rest.rsplit(".", 1)[0]
-        tracks.append((int(number_text), title))
+        match = re.match(r'^0*([0-9]+)[-_](.+?)\.[^.]+$', line)
+        if match:
+            number_text = int(match.group(1))
+            title = match.group(2).replace('_', ' ').capitalize()
+            tracks.append((int(number_text), title))
 
     if not tracks:
         raise ValueError("No track entries were found in the file.")
