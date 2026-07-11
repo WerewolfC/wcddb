@@ -6,10 +6,10 @@
   --panel-3: #333338;
   --text: #d4d4d4;
   --muted: #9da5b4;
-  --accent: #4fc3f7;
-  --accent-strong: #3794ff;
+  --accent: #db9233ea;
+  --accent-strong: #7a4c07;
   --success: #4ec9b0;
-  --danger: #f48771;
+  --danger: #640a0a;
   --border: #3e3e42;
   --shadow: rgba(0, 0, 0, 0.35);
 }
@@ -105,6 +105,7 @@ input, select {
   min-height: 44px;
 }
 input:focus, select:focus { outline: 1px solid var(--accent); border-color: var(--accent); }
+
 .button {
   border: none; padding: 12px 16px; border-radius: 8px; cursor: pointer; text-decoration: none; display: inline-block; text-align: center;
   transition: all 0.2s ease;
@@ -115,11 +116,11 @@ input:focus, select:focus { outline: 1px solid var(--accent); border-color: var(
   justify-content: center;
 }
 .button.primary { background: var(--accent-strong); color: white; }
-.button.primary:hover { background: #2e7bd8; }
+.button.primary:hover { background: #ad6512; }
 .button.secondary { background: var(--panel-2); color: var(--text); border: 1px solid var(--border); }
 .button.secondary:hover { border-color: var(--accent); }
 .button.danger { background: var(--danger); color: white; }
-.button.danger:hover { background: #e67359; }
+.button.danger:hover { background: #aa1f1f; }
 .flash-messages { display: grid; gap: 8px; margin-top: 16px; }
 .flash { padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.95rem; }
 .flash.success { background: rgba(78, 201, 176, 0.14); color: #b8f1e2; }

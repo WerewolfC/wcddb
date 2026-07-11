@@ -81,5 +81,21 @@
       <p class="empty-state">Select an artist to view albums and remove them.</p>
     {% endif %}
   </section>
-</section>
+
+  <section class="card">
+    <div class="card-header">
+      <h2>Maintenance</h2>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="stack">
+      <input type="hidden" name="action" value="export_data" />
+      <button class="button primary" type="submit">Export Data</button>
+    </form>
+
+    <form method="post" enctype="multipart/form-data" class="stack">
+      <input type="hidden" name="action" value="import_data" />
+      <input type="file" name="import_file" accept=".yaml,.yml,application/x-yaml,text/yaml" />
+      <button class="button primary" type="submit">Import Data</button>
+    </form>
+  </section>
 {% endblock %}
