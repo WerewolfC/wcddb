@@ -71,7 +71,10 @@
         <form method="post" class="stack">
           <input type="hidden" name="action" value="delete_singer" />
           <input type="hidden" name="singer_id" value="{{ selected_singer.id }}" />
-          <button class="button danger" type="submit" {% if selected_singer.albums %}disabled{% endif %}>Delete Artist</button>
+          {% if selected_singer.albums %}
+            <p class="empty-state">Artists with albums cannot be deleted. Remove their albums first.</p>
+          {% endif %}
+          <button class="button danger" type="submit">Delete Artist</button>
         </form>
       </div>
     {% else %}

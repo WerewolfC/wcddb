@@ -54,16 +54,16 @@ def config():
                 flash("Please upload a tracklist file.", "error")
                 return redirect(url_for("config"))
 
-            if singer_name:
+            if singer_name and not existing_singer_id:
                 singer = Singer.query.filter_by(name=singer_name).first()
                 if singer is None:
                     singer = Singer(name=singer_name)
                     db.session.add(singer)
                     db.session.flush()
-            elif existing_singer_id:
+            elif existing_singer_id and not singer_name:
                 singer = Singer.query.get(existing_singer_id)
             else:
-                flash("Please enter a new singer name or choose an existing singer.", "error")
+                flash("Please enter a new Artist or choose an existing. Both not accepted", "error")
                 return redirect(url_for("config"))
 
             try:
