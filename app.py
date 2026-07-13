@@ -294,10 +294,10 @@ def parse_import_file(upload_file):
     album_name = lines[0]
     tracks = []
 
+
     for line in lines[1:]:
-        if "_" not in line:
-            continue
         match = re.match(r'^0*([0-9]+)[-_](.+?)\.[^.]+$', line)
+
         if match:
             number_text = int(match.group(1))
             title = match.group(2).replace('_', ' ').capitalize()
