@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card">
+  <div class="card-header artist-page-header">
+    <h2>All Artists</h2>
+  </div>
+
+  {% if artist_albums %}
+    <div class="album-grid">
+      {% for entry in artist_albums %}
+        <a class="artist-card" href="{{ url_for('artist_detail', singer_id=entry.artist.id) }}">
+          <div class="artist-card-header">
+            <h3>{{ entry.artist.name }} ({{ entry.album_count }})</h3>
+          </div>
+          <ul class="album-list">
+            {% for album in entry.albums %}
+              <li>{{ album.name }}</li>
+            {% endfor %}
+          </ul>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="empty-state">No artists.</p>
+  {% endif %}
+</section>
+{% endblock %}

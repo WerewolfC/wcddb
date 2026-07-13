@@ -25,12 +25,27 @@ def index():
     singers = Singer.query.order_by(Singer.name).all()
     return render_template("index.html", singers=singers)
 
-
 @app.route("/artist/<int:singer_id>")
 def artist_detail(singer_id: int):
     singer = Singer.query.get_or_404(singer_id)
     albums = Album.query.filter_by(singer_id=singer_id).order_by(Album.name).all()
     return render_template("artist.html", singer=singer, albums=albums)
+
+@app.route("/all_albums")
+def all_albums():
+    artists = Singer.query.order_by(Singer.name).all()
+    artist_albums = []
+
+    for artist in artists:
+        albums = Album.query.filter_by(singer_id=artist.id).order_by(Album.name).all()
+        artist_albums.append({
+            "artist": artist,
+            "id": artist.id,
+            "album_count": len(albums),
+            "albums": albums,
+        })
+
+    return render_template("all_albums.html", artist_albums=artist_albums)
 
 
 @app.route("/config", methods=["GET", "POST"])
@@ -294,15 +309,12 @@ def parse_import_file(upload_file):
     album_name = lines[0]
     tracks = []
 
-
     for line in lines[1:]:
         match = re.match(r'^0*([0-9]+)[-_](.+?)\.[^.]+$', line)
-
         if match:
             number_text = int(match.group(1))
             title = match.group(2).replace('_', ' ').capitalize()
             tracks.append((int(number_text), title))
-
     if not tracks:
         raise ValueError("No track entries were found in the file.")
 
