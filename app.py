@@ -44,8 +44,12 @@ def all_albums():
             "album_count": len(albums),
             "albums": albums,
         })
+    statistics = {
+        "total_artists": len(artists),
+        "total_albums":  sum([count["album_count"] for count in artist_albums])
+    }
 
-    return render_template("all_albums.html", artist_albums=artist_albums)
+    return render_template("all_albums.html", artist_albums=artist_albums, statistics=statistics)
 
 
 @app.route("/config", methods=["GET", "POST"])

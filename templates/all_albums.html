@@ -3,6 +3,10 @@
 <section class="card">
   <div class="card-header artist-page-header">
     <h2>All Artists</h2>
+    <div class="stats-summary">
+      <p class="stats-line">Artists : {{ statistics.total_artists }}</p>
+      <p class="stats-line">Albums : {{ statistics.total_albums }}</p>
+    </div>
   </div>
 
   {% if artist_albums %}
